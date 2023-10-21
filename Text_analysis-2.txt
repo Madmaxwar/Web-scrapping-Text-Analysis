@@ -1,0 +1,46 @@
+#text analysis##
+
+from textblob import TextBlob
+import re
+
+article_text = " "
+
+article_blob = TextBlob(article_text)
+
+polarity_score = article_blob.sentiment.polarity
+
+subjectivity_score = article_blob.sentiment.subjectivity
+
+positive_score = max(0, polarity_score)
+
+negative_score = -min(0, polarity_score)
+
+sentences = re.split(r'(?<=[.!?])', article_text)
+
+sentences = [s.strip() for s in sentences if s.strip()]
+
+avg_sentence_length = sum(len(sentence.split()) for sentence in sentences) / len(sentences)
+
+words = article_blob.words
+
+complex_word_count = len([word for word in words if len(word) > 4])  # Adjust complexity criteria
+
+word_count = len(words)
+percentage_complex_words = (complex_word_count / word_count) * 100
+
+fog_index = 0.4 * (avg_sentence_length + percentage_complex_words)
+
+avg_words_per_sentence = word_count / len(sentences)
+
+print("Article Text:")
+print(article_text)
+print("Word Count for Article Text:", word_count)
+print("Polarity Score for Article Text:", polarity_score)
+print("Subjectivity Score for Article Text:", subjectivity_score)
+print("Positive Score for Article Text:", positive_score)
+print("Negative Score for Article Text:", negative_score)
+print("Average Sentence Length for Article Text:", avg_sentence_length)
+print("Percentage of Complex Words for Article Text:", percentage_complex_words)
+print("Complex Word Count for Article Text:", complex_word_count)
+print("Fog Index for Article Text:", fog_index)
+print("Average Words per Sentence for Article Text:", avg_words_per_sentence)
